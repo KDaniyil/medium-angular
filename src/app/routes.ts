@@ -1,6 +1,6 @@
 import { Route } from '@angular/router'
 
-export const ROUTES: Route[] = [
+export const routes: Route[] = [
     {
         path: 'register',
         loadComponent: () =>
