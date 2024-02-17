@@ -1,13 +1,9 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { AppStateInterface } from 'src/app/shared/types/appState.interface'
+import { createSelector } from '@ngrx/store'
 import { AuthStateInterface } from '../types/authState.interface'
 
-export const authFeatureSelector = createFeatureSelector<
-    AppStateInterface,
-    AuthStateInterface
->('auth')
+export const selectFeature = (state: { auth: AuthStateInterface }) => state.auth
 
-export const isSubmittingSelector = createSelector(
-    authFeatureSelector,
-    (authState: AuthStateInterface) => authState.isSubmiting
+export const selectIsSubmitting = createSelector(
+    selectFeature,
+    (state) => state.isSubmitting
 )

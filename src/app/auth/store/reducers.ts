@@ -1,19 +1,24 @@
-import { Action, createReducer, on } from '@ngrx/store'
+import { createFeature, createReducer, on } from '@ngrx/store'
 import { AuthStateInterface } from '../types/authState.interface'
-import { registerActon } from './actions/register.action'
+import { registerAction } from './actions'
 
 const initialState: AuthStateInterface = {
-    isSubmiting: false,
+    isSubmitting: false,
 }
 
-const authReducer = createReducer(
-    initialState,
-    on(registerActon, (state: AuthStateInterface) => ({
-        ...state,
-        isSubmiting: true,
-    }))
-)
+const authFeature = createFeature({
+    name: 'auth',
+    reducer: createReducer(
+        initialState,
+        on(registerAction, (state: AuthStateInterface) => ({
+            ...state,
+            isSubmitting: true,
+        }))
+    ),
+})
 
-export function reducers(state: AuthStateInterface, action: Action) {
-    return authReducer(state, action)
-}
+export const {
+    name: authFeatureKey,
+    reducer: authReducer,
+    selectIsSubmitting,
+} = authFeature

@@ -1,3 +1,4 @@
+==={{ isSubmitting$ | async }}===
 <div class="auth-page">
     <div class="container page">
         <div class="row">
@@ -34,6 +35,7 @@
                             />
                         </fieldset>
                         <button
+                            [disabled]="isSubmitting$ | async"
                             class="btn btn-lg btn-primary pull-xs-right"
                             type="submit"
                         >
