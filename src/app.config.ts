@@ -6,12 +6,17 @@ import { environment } from './environment/environment'
 import { provideRouter } from '@angular/router'
 import { provideState, provideStore } from '@ngrx/store'
 import { authFeatureKey, authReducer } from './app/auth/store/reducers'
+import { provideHttpClient } from '@angular/common/http'
+import { provideEffects } from '@ngrx/effects'
+import * as authEffects from './app/auth/store/effects'
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideHttpClient(),
         provideRouter(routes),
         provideStore(),
         provideState(authFeatureKey, authReducer),
+        provideEffects(authEffects),
         provideStoreDevtools({
             maxAge: 25,
             logOnly: environment.production,
@@ -20,5 +25,6 @@ export const appConfig: ApplicationConfig = {
             traceLimit: 7,
         }),
         importProvidersFrom(BrowserModule),
+        provideEffects(),
     ],
 }

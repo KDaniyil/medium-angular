@@ -7,28 +7,40 @@ import {
 } from '@angular/forms'
 import { Store } from '@ngrx/store'
 import { RouterLink } from '@angular/router'
-import { registerAction } from '../../store/actions'
-import { selectIsSubmitting } from '../../store/reducers'
-import { AuthStateInterface } from '../../types/authState.interface'
+import {
+    selectIsSubmitting,
+    selectValidationErrors,
+} from '../../store/reducers'
 import { CommonModule } from '@angular/common'
 import { RegisterRequestInterface } from '../../types/registerRequest.interface'
+import { authActions } from '../../store/actions'
+import { combineLatest } from 'rxjs'
+import { BackendErrorsComponent } from 'src/app/shared/components/backend-errors/backend-errors.component'
 
 @Component({
     selector: 'mc-register',
     templateUrl: './register.component.html',
     styleUrl: './register.component.scss',
     standalone: true,
-    imports: [RouterLink, ReactiveFormsModule, CommonModule],
+    imports: [
+        RouterLink,
+        ReactiveFormsModule,
+        CommonModule,
+        BackendErrorsComponent,
+    ],
 })
 export class RegisterComponent implements OnInit {
     form: FormGroup
 
-    isSubmitting$ = this.store.select(selectIsSubmitting)
+    // isSubmitting$ = this.store.select(selectIsSubmitting)
+    // backendErrors$ = this.store.select(selectValidationErrors)
 
-    constructor(
-        private fb: FormBuilder,
-        private store: Store<{ auth: AuthStateInterface }>
-    ) {}
+    data$ = combineLatest({
+        isSubmitting: this.store.select(selectIsSubmitting),
+        backendErrors: this.store.select(selectValidationErrors),
+    })
+
+    constructor(private fb: FormBuilder, private store: Store) {}
 
     ngOnInit(): void {
         this.initializeForm()
@@ -47,7 +59,7 @@ export class RegisterComponent implements OnInit {
             const request: RegisterRequestInterface = {
                 user: this.form.value,
             }
-            this.store.dispatch(registerAction({ request }))
+            this.store.dispatch(authActions.register({ request }))
         }
     }
 }
