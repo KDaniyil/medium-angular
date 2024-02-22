@@ -8,4 +8,6 @@ import { Component } from '@angular/core'
     templateUrl: './feed.component.html',
     styleUrl: './feed.component.scss',
 })
-export class FeedComponent {}
+export class FeedComponent {
+    constructor() {}
+}

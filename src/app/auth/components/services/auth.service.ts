@@ -11,7 +11,7 @@ import { LoginRequestInterface } from '../../types/loginRequest.interface'
     providedIn: 'root',
 })
 export class AuthService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     getUser(response: AuthResponseInterface): CurrentUserInterface {
         return response.user
